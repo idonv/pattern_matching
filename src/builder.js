@@ -45,6 +45,10 @@ module.exports = class MatchBuilder {
         return this.case(pattern, returnValue, 'is');
     }
 
+    section(pattern, returnValue) {
+        return this.case(pattern, returnValue, 'section');
+    }
+
     regex(pattern, returnValue) {
         return this.case(pattern, returnValue, 'regex');
     }

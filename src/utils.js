@@ -25,7 +25,7 @@ module.exports = {
         return !!potentialConstructor.prototype && !!potentialConstructor.prototype.constructor.name;
     },
 
-    _isPartoF(set, subSet) {
+    _isSection(set, subSet) {
         if(!subSet.length) {
             return false;
         } 
@@ -110,31 +110,6 @@ module.exports = {
         return false;
     },
 
-    partOf(value, pattern) {
-        pattern = this._tryGetPatternFromFactory(pattern, value);
-
-        if(typeof pattern === 'string' && typeof value === 'string') {
-            return pattern.includes(value);
-        }
-
-        if (!this.isIterator(pattern)) {
-            throw new TypeError('Pattern is not iterable');
-        }
-
-        if(this.isIterator(value) && !Array.isArray(value)) {
-            value = this._tryConvertToArray(value);
-        }
-
-        if (Array.isArray(value)) {
-            pattern = this._tryConvertToArray(pattern);
-            const lenDifference = pattern.length - value.length;
-
-            return lenDifference < 0 ? false : this._isPartoF(pattern, value);
-        }
-
-        return this.in(value, pattern);
-    },
-
     regex(value, pattern) {
         if (typeof value !== 'string') {
             throw new TypeError('The value must be a string');
@@ -144,6 +119,31 @@ module.exports = {
 
         const regex = new RegExp(pattern);
         return value.match(regex)?.length > 0;
+    },
+
+    section(section, collection) {
+        collection = this._tryGetPatternFromFactory(collection, section);
+
+        if(typeof collection === 'string' && typeof section === 'string') {
+            return collection.includes(section);
+        }
+
+        if (!this.isIterator(collection)) {
+            throw new TypeError('Pattern is not iterable');
+        }
+
+        if(this.isIterator(section) && !Array.isArray(section)) {
+            section = this._tryConvertToArray(section);
+        }
+
+        if (Array.isArray(section)) {
+            collection = this._tryConvertToArray(collection);
+            const lenDifference = collection.length - section.length;
+
+            return lenDifference < 0 ? false : this._isSection(collection, section);
+        }
+
+        return this.in(section, collection);
     },
 
     sub(subSet, set) {
@@ -183,7 +183,7 @@ module.exports = {
         first: 'first',
         in: 'in',
         is: 'is',
-        partOf: 'partOf',
+        section: 'section',
         regex: 'regex',
         sub: 'sub'
     }
