@@ -18,7 +18,7 @@ module.exports.Matcher = class Matcher {
     }
 
     match(value) {
-        const result = utils.first(this.#clauses, ({ pattern, op, not }) => utils[op](value, pattern) !== not)
+        const result = utils.first(this.#clauses, ({ pattern, op, not }) => utils[op](value, pattern) !== not);
         return result ? utils.constructResult(result.returnValue) : this.#getDefault();
     }
 }
@@ -45,9 +45,9 @@ module.exports.MultiMatcher = class MultiMatcher {
     match(value) {
         let results = [], caseId = this.#options.zeroBased ? 0 : 1;
         for (const { pattern, returnValue, op, not } of this.#clauses) {
-            const operationSuccess = utils[op](value, pattern) !== not;
+            const opSuccess = utils[op](value, pattern) !== not;
 
-            if (operationSuccess) {
+            if (opSuccess) {
                 const result = { case: caseId++, value: utils.constructResult(returnValue) };
                 results.push(result);
             }

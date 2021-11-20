@@ -58,7 +58,7 @@ module.exports = {
         return _.isEqual(value, pattern);
     },
 
-    first(collection, predicate) {
-        return _.find(collection, predicate)
+    first(clauses, predicate) {
+        return clauses.find(predicate);
     }
 }

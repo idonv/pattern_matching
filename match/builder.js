@@ -1,5 +1,7 @@
 const { Matcher, MultiMatcher } = require('./matchers');
  
+const defaultOptions = { multiMatch: false, zeroBased: false };
+
 module.exports = class MatchBuilder {
     #clauses;
     #not = false;
@@ -7,7 +9,7 @@ module.exports = class MatchBuilder {
     #defualt;
 
     constructor(options) {
-        this.#options = options;
+        this.#options = options ? { ...defaultOptions, ...options } : defaultOptions;
         this.#clauses = [];
     }
 
@@ -52,8 +54,8 @@ module.exports = class MatchBuilder {
     }
 
     construct() {
-        const { multiMatch } = this.#options ?? { multiMatch: false };
-        const matcher = multiMatch ? new MultiMatcher(this.#clauses, this.#defualt, { zeroBased: this.#options.zeroBased }) : new Matcher(this.#clauses, this.#defualt);
+        const { multiMatch } = this.#options;
+        const matcher = multiMatch ? new MultiMatcher(this.#clauses, this.#defualt, this.#options) : new Matcher(this.#clauses, this.#defualt);
 
         this.clear();
         return matcher;
