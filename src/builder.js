@@ -15,7 +15,13 @@ module.exports = class MatchBuilder {
     }
 
     case(pattern, returnValue, op = 'equal') {
-        this.#clauses.push({ pattern, returnValue, op: utils.operations[op], not: this.#not });
+        const selectedOp = utils.operations[op];
+
+        if(!selectedOp) {
+            throw new Error(`Invalid operation name "${op}". Supported operations: [${Object.keys(utils.operations)}].`);
+        }
+
+        this.#clauses.push({ pattern, returnValue, op: selectedOp, not: this.#not });
         this.#not = false;
         return this;
     }
