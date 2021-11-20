@@ -1,6 +1,6 @@
 const MatchBuilder = require('./builder');
 
-module.exports = function match(value, options) {
+function match(value, options) {
     const builder = new MatchBuilder(options);
     return {
         get not() {
@@ -42,3 +42,5 @@ module.exports = function match(value, options) {
         }
     }
 }
+
+module.exports = match;

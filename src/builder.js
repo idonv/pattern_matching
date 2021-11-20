@@ -1,4 +1,5 @@
 const { Matcher, MultiMatcher } = require('./matchers');
+const utils = require('./utils');
  
 const defaultOptions = { multiMatch: false, zeroBased: false };
 
@@ -14,7 +15,7 @@ module.exports = class MatchBuilder {
     }
 
     case(pattern, returnValue, op = 'equal') {
-        this.#clauses.push({ pattern, returnValue, op, not: this.#not });
+        this.#clauses.push({ pattern, returnValue, op: utils.operations[op], not: this.#not });
         this.#not = false;
         return this;
     }
@@ -46,6 +47,10 @@ module.exports = class MatchBuilder {
 
     regex(pattern, returnValue) {
         return this.case(pattern, returnValue, 'regex');
+    }
+
+    sub(pattern, returnValue) {
+        return this.case(pattern, returnValue, 'sub');
     }
 
     clear() {
