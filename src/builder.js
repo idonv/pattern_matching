@@ -5,9 +5,9 @@ const defaultOptions = { multiMatch: false, zeroBased: false };
 
 module.exports = class MatchBuilder {
     #clauses;
+    #defualt;
     #not = false;
     #options;
-    #defualt;
 
     constructor(options) {
         this.#options = options ? { ...defaultOptions, ...options } : defaultOptions;
@@ -20,37 +20,29 @@ module.exports = class MatchBuilder {
         return this;
     }
 
-    get not() {
-        this.#not = true;
-        return this;
-    }
-
-    default(defaultValue) {
-        if (this.#defualt === undefined) {
-            this.#defualt = defaultValue;
-        }
-
-        return { construct: this.construct.bind(this) }
+    equal(pattern, returnValue) {
+        return this.case(pattern, returnValue, 'equal');
     }
 
     in(pattern, returnValue) {
         return this.case(pattern, returnValue, 'in');
     }
 
-    equal(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'equal');
-    }
-
     is(pattern, returnValue) {
         return this.case(pattern, returnValue, 'is');
     }
 
-    section(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'section');
+    get not() {
+        this.#not = true;
+        return this;
     }
 
     regex(pattern, returnValue) {
         return this.case(pattern, returnValue, 'regex');
+    }
+
+    section(pattern, returnValue) {
+        return this.case(pattern, returnValue, 'section');
     }
 
     sub(pattern, returnValue) {
@@ -68,5 +60,13 @@ module.exports = class MatchBuilder {
 
         this.clear();
         return matcher;
+    }
+
+    default(defaultValue) {
+        if (this.#defualt === undefined) {
+            this.#defualt = defaultValue;
+        }
+
+        return { construct: this.construct.bind(this) }
     }
 }

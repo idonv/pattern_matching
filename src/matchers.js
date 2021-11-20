@@ -11,15 +11,15 @@ module.exports.Matcher = class Matcher {
 
     #getDefault() {
         if (this.#default) {
-            return utils.constructResult(this.#default);
+            return utils.getReturnValue(this.#default);
         }
 
         return null;
     }
 
     match(value) {
-        const result = utils.first(this.#clauses, ({ pattern, op, not }) => utils[op](value, pattern) !== not);
-        return result ? utils.constructResult(result.returnValue) : this.#getDefault();
+        const result = this.#clauses.find(({ pattern, op, not }) => utils[op](value, pattern) !== not);
+        return result ? utils.getReturnValue(result.returnValue) : this.#getDefault();
     }
 }
 
@@ -36,7 +36,7 @@ module.exports.MultiMatcher = class MultiMatcher {
 
     #getDefault() {
         if (this.#default) {
-            return [{ case: -1, value: utils.constructResult(this.#default) }];
+            return [{ case: -1, type: 'default', value: utils.getReturnValue(this.#default) }];
         }
 
         return null;
@@ -48,7 +48,7 @@ module.exports.MultiMatcher = class MultiMatcher {
             const opSuccess = utils[op](value, pattern) !== not;
 
             if (opSuccess) {
-                const result = { case: caseId++, value: utils.constructResult(returnValue) };
+                const result = { case: caseId++, type: op, value: utils.getReturnValue(returnValue) };
                 results.push(result);
             }
         }

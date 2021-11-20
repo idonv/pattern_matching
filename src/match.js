@@ -8,6 +8,11 @@ function match(value, options) {
             return this;
         },
 
+        case(pattern, returnValue, op) {
+            builder.case(pattern, returnValue, op);
+            return this;
+        },
+
         default(defaultValue) {
             builder.default(defaultValue);
             return { end: this.end };
@@ -32,9 +37,12 @@ function match(value, options) {
             return builder.case(pattern, returnValue, 'regex');
         },
 
-        case(pattern, returnValue, op) {
-            builder.case(pattern, returnValue, op);
-            return this;
+        section(pattern, returnValue) {
+            return builder.section(pattern, returnValue);
+        },
+
+        sub(pattern, returnValue) {
+            return builder.sub(pattern, returnValue);
         },
 
         end() {
