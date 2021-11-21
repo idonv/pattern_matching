@@ -48,7 +48,7 @@ module.exports.MultiMatcher = class MultiMatcher {
             const opSuccess = utils[op](value, pattern) !== not;
 
             if (opSuccess) {
-                const result = { case: caseId++, type: op, value: utils.getReturnValue(returnValue) };
+                const result = { case: caseId++, type: op, not: not, value: utils.getReturnValue(returnValue) };
                 results.push(result);
             }
         }
