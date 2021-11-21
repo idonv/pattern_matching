@@ -190,7 +190,7 @@ const operations = {
 module.exports = Object.freeze({
     operations,
     getReturnValue,
-    eqaul: equalOperation,
+    equal: equalOperation,
     in: inOperation,
     is: isOperation,
     section: sectionOperation,
