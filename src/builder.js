@@ -1,5 +1,6 @@
 const { Matcher, MultiMatcher } = require('./matchers');
 const utils = require('./utils');
+const { operations } = utils;
  
 const defaultOptions = { multiMatch: false, zeroBased: false };
 
@@ -27,15 +28,15 @@ module.exports = class MatchBuilder {
     }
 
     equal(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'equal');
+        return this.case(pattern, returnValue, operations.equal);
     }
 
     in(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'in');
+        return this.case(pattern, returnValue, operations.in);
     }
 
     is(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'is');
+        return this.case(pattern, returnValue, operations.is);
     }
 
     get not() {
@@ -44,15 +45,15 @@ module.exports = class MatchBuilder {
     }
 
     regex(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'regex');
+        return this.case(pattern, returnValue, operations.regex);
     }
 
     section(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'section');
+        return this.case(pattern, returnValue, operations.section);
     }
 
     sub(pattern, returnValue) {
-        return this.case(pattern, returnValue, 'sub');
+        return this.case(pattern, returnValue, operations.sub);
     }
 
     clear() {
